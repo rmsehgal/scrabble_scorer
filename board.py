@@ -6,5 +6,6 @@ class Board(object):
 
 
 
+
     def sideLen(self):
         return self.size

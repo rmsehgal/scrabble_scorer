@@ -6,8 +6,5 @@ class Board(object):
         self.size = size
         self.board = [['.'] * self.size] * self.size
 
-
-
-
     def sideLen(self):
         return self.size

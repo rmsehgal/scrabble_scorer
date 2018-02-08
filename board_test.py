@@ -13,13 +13,13 @@ class BoardTest(unittest.TestCase):
             board.Board(-1)
 
 
-    # def test_adding_word_to_board(self):
-    #     bb = board.Board(5)
-    #     pos = [0,0]
-    #     wd = 'aa'
-    #     direct = 'down'
-    #     with self.assertRaises(ValueError):
-    #         bb.addWord(pos,direct,wd)
+    def test_adding_word_to_board(self):
+        bb = board.Board(5)
+        pos = [0,0]
+        wd = 'aa'
+        direct = 'down'
+        with self.assertRaises(ValueError):
+            bb.addWord(pos,direct,wd)
 
 
 

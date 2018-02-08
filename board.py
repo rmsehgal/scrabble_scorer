@@ -4,6 +4,7 @@ class Board(object):
         if size <= 0:
             raise ValueError("Board size must be greater than 0")
         self.size = size
+        self.is_empty = True
         self.board = [['.'] * self.size] * self.size
 
     def sideLen(self):

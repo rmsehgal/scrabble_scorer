@@ -13,7 +13,7 @@ class BoardTest(unittest.TestCase):
             board.Board(-1)
 
 
-    def test_adding_word_to_board(self):
+    def test_adding_first_word_to_board(self):
         bb = board.Board(5)
         pos = [0,0]
         wd = 'aa'
@@ -21,7 +21,21 @@ class BoardTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             bb.addWord(pos,direct,wd)
 
-
+    def test_adding_word_outside_of_board(self):
+        bb = board.Board(5)
+        pos = [-1,2] 
+        wd = 'aa'
+        direct = 'down'
+        with self.assertRaises(ValueError):
+            bb.addWord(pos,direct,wd)
+            
+    def test_adding_too_large_word(self):
+        bb = board.Board(5)
+        pos = [0,2] 
+        wd = '123456789'
+        direct = 'down'
+        with self.assertRaises(ValueError):
+            bb.addWord(pos,direct,wd)
 
     def test_isEmpty_exists(self):
         bb = board.Board(10)

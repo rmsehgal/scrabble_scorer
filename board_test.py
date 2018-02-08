@@ -18,13 +18,14 @@ class BoardTest(unittest.TestCase):
     #     pos = [0,0]
     #     wd = 'aa'
     #     direct = 'down'
-    #     bb.addWord(pos,direct,wd)
+    #     with self.assertRaises(ValueError):
+    #         bb.addWord(pos,direct,wd)
 
 
 
-    def test_is_empty_exists(self):
+    def test_isEmpty_exists(self):
         bb = board.Board(10)
-        self.assertTrue(bb.is_empty)
+        self.assertTrue(bb.isEmpty)
         
 if __name__ == '__main__':
     unittest.main()

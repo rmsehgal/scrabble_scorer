@@ -38,7 +38,7 @@ class Board(object):
     def _checkNeighborWord(self):
         return True
         
-    def addWord(self,posit,direct,word):
+    def addWord(self,posit,direct,word,dictionary):
         if direct not in ['down','up','d','u']:
             raise ValueError('Direction must be one of down, d, up, or u input: %s'%direct)
         if direct == 'down' or direct == 'd':

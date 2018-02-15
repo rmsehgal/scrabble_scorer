@@ -5,7 +5,7 @@ class Board(object):
             raise ValueError("Board size must be greater than 0")
         self.size = size
         self.isEmpty = True
-        self.board = [['.'] * self.size] * self.size
+        self.board = [['.' for ii in range(self.size)] for ii in range(self.size)]
 
 
     def _checkBoundsPlace(self,wd_pos,direct):
@@ -18,7 +18,7 @@ class Board(object):
         if wd_pos[-1][0] >= self.size or wd_pos[-1][1] >= self.size:
             raise ValueError("Based on input position [%i,%i] word (%i squares %s) cannot fit on board"%(wd_pos[0][0],wd_pos[0][1],len(wd_pos),direct))
 
-    def _checkOverlap(self,wd_pos,word,direct):
+    def _checkOverlap(self,wd_pos,word,direct,dictionary):
         if direct == 'down' or direct == 'd':
             neighbor_mask = [[0,-1],[0,1]]
         else:
@@ -32,15 +32,43 @@ class Board(object):
             for nm in neighbor_mask:
                 if self.board[pp[0]+nm[0]][pp[1]+nm[1]] != '.':
                     #check that word formed from this locaiton is actualy a word
-                    isOL = self._checkNeighborWord()
+                    isOL = self._checkNeighborWord(pp,direct,dictionary)
         return isOL
     
-    def _checkNeighborWord(self):
+    def _checkNeighborWord(self,int_point,opp_direct,dictionary):
+        if opp_direct in ("down" ,'d'):
+            direct = 'r'
+        else:
+            direct = 'd'
+
+        wd_pos = []
+        pp = int_point[:]
+        while 0<=pp[0]<self.size and 0<=pp[1]<self.size and self.board[pp[0]][pp[1]] != '.':
+            wd_pos.append(pp)
+            if direct == 'd':
+                pp[0] -= 1
+            else:
+                pp[1] -= 1
+
+        pp = int_point[:]
+        if direct == 'd':
+            pp[0] +=1
+        else:
+            pp[1] +=1
+        
+        while  0<=pp[0]<self.size and 0<=pp[1]<self.size and self.board[pp[0]][pp[1]] != '.':
+            wd_pos.append(pp)
+            if direct == 'd':
+                pp[0] += 1
+            else:
+                pp[1] += 1
+
+        
         return True
         
     def addWord(self,posit,direct,word,dictionary):
-        if direct not in ['down','up','d','u']:
-            raise ValueError('Direction must be one of down, d, up, or u input: %s'%direct)
+        if direct not in ['down','right','d','r']:
+            raise ValueError('Direction must be one of down, d, right, or r input: %s'%direct)
         if direct == 'down' or direct == 'd':
             wd_pos = [[posit[0]+ii,posit[1]] for ii in range(len(word))]
         else:
@@ -49,9 +77,9 @@ class Board(object):
         if not self.isEmpty:
             self._checkOverlap(wd_pos,word,direct)
         for pp,cc in zip(wd_pos,word):
-            if self.board[pp[0]][pp[1]] != '.':
+            if self.board[pp[0]][pp[1]] == '.':
                 self.board[pp[0]][pp[1]] = cc
-    
+        
     
     
     def sideLen(self):

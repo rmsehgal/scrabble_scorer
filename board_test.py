@@ -47,6 +47,17 @@ class BoardTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             bb.addWord(pos,direct,wd,dd)
 
+    def test_adding_first_word_correctly(self):
+        bb = sbd.Board(5)
+        dd = sdi.Dictionary(['aa'])
+        pos = [2,2]
+        wd = 'aa'
+        direct = 'r'
+        bb.addWord(pos,direct,wd,dd)
+        self.assertEqual(bb.board,[['.']*5,['.']*5,['.','.','a','a','.'],['.']*5,['.']*5])
+
+            
+        
     def test_isEmpty_exists(self):
         bb = sbd.Board(10)
         self.assertTrue(bb.isEmpty)

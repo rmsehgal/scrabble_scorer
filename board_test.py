@@ -56,7 +56,59 @@ class BoardTest(unittest.TestCase):
         bb.addWord(pos,direct,wd,dd)
         self.assertEqual(bb.board,[['.']*5,['.']*5,['.','.','a','a','.'],['.']*5,['.']*5])
 
-            
+    def test_adding_second_word_not_ol(self):
+        bb = sbd.Board(5)
+        dd = sdi.Dictionary(['aa'])
+        pos = [2,2]
+        wd = 'aa'
+        direct = 'd'
+        bb.addWord(pos,direct,wd,dd)
+        pos = [0,0]
+        wd = 'aa'
+        direct = 'd'
+        with self.assertRaises(ValueError):
+            bb.addWord(pos,direct,wd,dd)
+
+
+        
+    def test_adding_second_word_direct_ol(self):
+        bb = sbd.Board(5)
+        dd = sdi.Dictionary(['aa'])
+        pos = [2,2]
+        wd = 'aa'
+        direct = 'r'
+        bb.addWord(pos,direct,wd,dd)
+        direct = 'd'
+        bb.addWord(pos,direct,wd,dd)
+        self.assertEqual(bb.board,[['.']*5,['.']*5,['.','.','a','a','.'],['.','.','a','.','.'],['.']*5])
+
+    def test_adding_second_word_neighboring(self):
+        bb = sbd.Board(5)
+        dd = sdi.Dictionary(['aa','aaa'])
+        pos = [2,2]
+        wd = 'aa'
+        direct = 'd'
+        bb.addWord(pos,direct,wd,dd)
+        pos = [2,3]
+        bb.addWord(pos,direct,wd,dd)
+        self.assertEqual(bb.board,[['.']*5,['.']*5,['.','.','a','a','.'],['.','.','a','a','.'],['.']*5])
+
+    def test_adding_second_word_not_in_di(self):
+        bb = sbd.Board(5)
+        dd = sdi.Dictionary(['aa','ab'])
+        pos = [2,2]
+        wd = 'aa'
+        direct = 'd'
+        bb.addWord(pos,direct,wd,dd)
+        pos = [2,1]
+        wd = 'ab'
+        direct = 'd'
+        with self.assertRaises(ValueError):
+            bb.addWord(pos,direct,wd,dd)
+
+
+
+        
         
     def test_isEmpty_exists(self):
         bb = sbd.Board(10)

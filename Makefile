@@ -1,13 +1,21 @@
 RUN_PY_TEST=python3
 RUN_PY_LINT=pylint
-ALL_PY_MODULES =$(wildcard *.py)
-ALL_PY_TESTS =$(wildcard *test.py)
+ALL_PY_MODULES:=$(wildcard *.py)
+ALL_PY_TESTS:=$(wildcard *_test.py)
+PY_LINT_TARGETS:=$(addsuffix .lint_out , $(ALL_PY_MODULES))
+PY_TEST_TARGETS:=$(addsuffix .test_out , $(ALL_PY_TESTS))
 
-all: lint tests
+all: $(PY_LINT_TARGETS) $(PY_TEST_TARGETS)
 
-lint:
-	for ff in $(ALL_PY_MODULES); do echo $$ff; $(RUN_PY_LINT) $$ff; done
+clean:
+	rm -f $(PY_LINT_TARGETS) $(PY_TEST_TARGETS)
 
-tests:
-	for tt in $(ALLMODULES); do echo $$tt; $(RUN_PY_TEST) $$tt; done
+print-%  : ; @echo $* = $($*)
 
+%.py.lint_out : %.py
+	$(RUN_PY_LINT) $<
+	touch $@
+
+%.py.test_out : %.py $(ALL_PY_MODULES)
+	$(RUN_PY_TEST) $<
+	touch $@

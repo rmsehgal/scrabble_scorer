@@ -5,7 +5,9 @@ ALL_PY_TESTS:=$(wildcard *_test.py)
 PY_LINT_TARGETS:=$(addsuffix .lint_out , $(ALL_PY_MODULES))
 PY_TEST_TARGETS:=$(addsuffix .test_out , $(ALL_PY_TESTS))
 
-all: $(PY_LINT_TARGETS) $(PY_TEST_TARGETS)
+all: lint test
+lint: $(PY_LINT_TARGETS)
+test: $(PY_TEST_TARGETS)
 
 clean:
 	rm -f $(PY_LINT_TARGETS) $(PY_TEST_TARGETS)
@@ -14,8 +16,8 @@ print-%  : ; @echo $* = $($*)
 
 %.py.lint_out : %.py
 	$(RUN_PY_LINT) $<
-	touch $@
+	@touch $@
 
 %.py.test_out : %.py $(ALL_PY_MODULES)
 	$(RUN_PY_TEST) $<
-	touch $@
+	@touch $@
